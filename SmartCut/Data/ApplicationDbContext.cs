@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SmartCut.Models;
 
 namespace SmartCut.Data
 {
@@ -13,6 +14,8 @@ namespace SmartCut.Data
             : base(options)
         {
         }
+
+        public DbSet<SettingModel> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -24,6 +27,8 @@ namespace SmartCut.Data
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+
+            builder.Entity<SettingModel>().HasData(new SettingModel { Id = 1, MaximumCuttingLengthInCm = 1, GramageRangePercent = 0 });
 
         }
     }
