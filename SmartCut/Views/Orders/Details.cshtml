@@ -39,6 +39,15 @@
                 <span asp-validation-for="Filter.Hardness" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Filter.Available" class="control-label">متوفرة</label>
+                <select asp-for="Filter.Available" class="form-control">
+                    <option value="">الكل</option>
+                    <option value="1">متوفرة</option>
+                    <option value="0">غير متوفرة</option>
+                </select>
+                <span asp-validation-for="Filter.Hardness" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Filter.ItemType" class="control-label">نوع المادة</label>
                 <select asp-for="Filter.ItemType" class="form-control" asp-items="Html.GetEnumSelectList<StockItemType>()">
                     <option value=""></option>

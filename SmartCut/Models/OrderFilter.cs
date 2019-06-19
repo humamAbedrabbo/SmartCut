@@ -15,5 +15,7 @@
         public Hardness? Hardness { get; set; }
 
         public StockItemType? ItemType { get; set; }
+
+        public int? Available { get; set; }
     }
 }

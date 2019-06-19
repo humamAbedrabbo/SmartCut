@@ -47,18 +47,15 @@ namespace SmartCut.Controllers
                 anOrder.Items = context.StockItems
                     .Where(x =>
                         x.CategoryId == filter.CategoryId
-                        && filter.Length <= x.Length
-                        && filter.Width <= x.Width
                         && x.Gramage <= filter.Gramage * (1 + gramagePercent)
                         && x.Gramage >= filter.Gramage * (1 - gramagePercent)
-                        && (!filter.Hardness.HasValue || x.Hardness == filter.Hardness.Value)
-                        && (!filter.ItemType.HasValue || x.ItemType == filter.ItemType.Value)
+                        && (!filter.Available.HasValue || x.IsAvailable == bool.Parse(filter.Available.Value.ToString()))
                     )
                     .Select(x => (StockItemViewModel)x)
                     .ToList();
                 ;
 
-                anOrder = OrderService.CheckOrder(anOrder);
+                anOrder = OrderService.CheckOrder(anOrder, settings);
                  
                 ;
                 ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");

@@ -8,7 +8,7 @@ namespace SmartCut.Services
 {
     public class OrderService
     {
-        public static Order CheckOrder(Order order)
+        public static Order CheckOrder(Order order, SettingModel settings)
         {
             foreach(var item in order.Items)
             {
