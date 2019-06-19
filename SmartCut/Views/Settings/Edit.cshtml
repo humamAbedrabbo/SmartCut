@@ -1,0 +1,34 @@
+﻿@model SmartCut.Models.SettingModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Settings</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="MaximumCuttingLengthInCm" class="control-label">Max. Cutting Length (cm)</label>
+                <input asp-for="MaximumCuttingLengthInCm" class="form-control" />
+                <span asp-validation-for="MaximumCuttingLengthInCm" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GramageRangePercent" class="control-label">Gramage Range %</label>
+                <input asp-for="GramageRangePercent" class="form-control" />
+                <span asp-validation-for="GramageRangePercent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
