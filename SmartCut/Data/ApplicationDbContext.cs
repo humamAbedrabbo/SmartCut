@@ -17,6 +17,7 @@ namespace SmartCut.Data
 
         public DbSet<SettingModel> Settings { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<StockItem> StockItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
