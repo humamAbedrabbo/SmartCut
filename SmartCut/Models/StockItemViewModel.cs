@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace SmartCut.Models
+﻿namespace SmartCut.Models
 {
-    public class StockItem
+    public class StockItemViewModel
     {
         public int Id { get; set; }
 
@@ -31,9 +26,13 @@ namespace SmartCut.Models
 
         public string Notes { get; set; }
 
-        public static explicit operator StockItemViewModel(StockItem si)
+        public double LossPercent { get; set; }
+
+        public int Total { get; set; }
+
+        public static explicit operator StockItem(StockItemViewModel si)
         {
-            return new StockItemViewModel
+            return new StockItem
             {
                 Id = si.Id,
                 ItemType = si.ItemType,
