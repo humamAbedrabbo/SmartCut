@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
 using SmartCut.Data;
 using SmartCut.Models;
 
@@ -67,6 +70,61 @@ namespace SmartCut.Controllers
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", stockItem.CategoryId);
             return View(stockItem);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Import(IFormFile file)
+        {
+            if(file != null && file.Length > 0)
+            {
+                var filePath = Path.GetTempFileName();
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        List<StockItemImport> output = new List<StockItemImport>();
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        var rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            output.Add(new StockItemImport
+                            {
+                                ItemType = int.Parse( worksheet.Cells[row, 1].Value.ToString().Trim() ),
+                                CategoryId = int.Parse(worksheet.Cells[row, 2].Value.ToString().Trim()),
+                                Length = Convert.ToInt32( float.Parse(worksheet.Cells[row, 3].Value.ToString().Trim()) * 10),
+                                Width = Convert.ToInt32( float.Parse(worksheet.Cells[row, 4].Value.ToString().Trim()) * 10),
+                                Hardness = int.Parse(worksheet.Cells[row, 5].Value.ToString().Trim()),
+                                Weight = double.Parse(worksheet.Cells[row, 6].Value.ToString().Trim()),
+                                Gramage = int.Parse(worksheet.Cells[row, 7].Value.ToString().Trim()),
+                                IsAvailable = int.Parse(worksheet.Cells[row, 8].Value.ToString().Trim()),
+                                ShipmentNo = worksheet.Cells[row, 9].Value.ToString().Trim(),
+                                Notes = worksheet.Cells[row, 10].Value.ToString().Trim(),
+                            });
+                        }
+
+                        if(output.Count > 0)
+                        {
+                            List<StockItem> items = output.Select(x => (StockItem)x).ToList();
+                            await _context.StockItems.AddRangeAsync(items);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+
+                //var data = System.IO.File.ReadAllBytes(filePath);
+                //ImportFromExcel import = new ImportFromExcel();
+                //import.LoadXlsx(data);
+                ////first parameter it's the sheet number in the excel workbook
+                ////second parameter it's the number of rows to skip at the start(we have an header in the file)
+                //List<StockItemImport> output = import.ExcelToList<StockItemImport>(0, 1);
+
+
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: StockItems/Edit/5
