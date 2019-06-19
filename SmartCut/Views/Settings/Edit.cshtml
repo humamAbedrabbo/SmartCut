@@ -1,10 +1,10 @@
 ﻿@model SmartCut.Models.SettingModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "الإعدادات";
 }
 
-<h1>Settings</h1>
+<h1>الإعدادات</h1>
 
 <hr />
 <div class="row">
@@ -13,17 +13,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="MaximumCuttingLengthInCm" class="control-label">Max. Cutting Length (cm)</label>
+                <label asp-for="MaximumCuttingLengthInCm" class="control-label">الطول الأعظمي للقص - سم</label>
                 <input asp-for="MaximumCuttingLengthInCm" class="form-control" />
                 <span asp-validation-for="MaximumCuttingLengthInCm" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GramageRangePercent" class="control-label">Gramage Range %</label>
+                <label asp-for="GramageRangePercent" class="control-label">ارتياب غراماج %</label>
                 <input asp-for="GramageRangePercent" class="form-control" />
                 <span asp-validation-for="GramageRangePercent" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="حفظ" class="btn btn-primary" />
             </div>
         </form>
     </div>

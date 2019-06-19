@@ -1,59 +1,52 @@
 ﻿@model IEnumerable<SmartCut.Models.StockItemViewModel>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
+            
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                نوع المادة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ItemType)
+                الصنف
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
+                الطول
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Length)
+                العرض
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Width)
+               القساوة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Hardness)
+                الوزن كغ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                غراماج
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gramage)
+                متوفر
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAvailable)
+                الشحنة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShipmentNo)
+                ملاحظة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                التشريك%
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LossPercent)
+                إجمالي
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total)
-            </th>
-            <th></th>
+            
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.ItemType)
             </td>
@@ -90,11 +83,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Total)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+            
         </tr>
 }
     </tbody>

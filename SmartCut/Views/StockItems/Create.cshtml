@@ -1,76 +1,73 @@
 ﻿@model SmartCut.Models.StockItem
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "إضافة مادة";
 }
 
-<h1>Create</h1>
+<h1>إضافة مادة</h1>
 
-<h4>StockItem</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ItemType" class="control-label"></label>
+                <label asp-for="ItemType" class="control-label">نوع المادة</label>
                 <select asp-for="ItemType" class="form-control" asp-items="Html.GetEnumSelectList<StockItemType>()"></select>
                 <span asp-validation-for="ItemType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label">الصنف</label>
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label"></label>
+                <label asp-for="Length" class="control-label">الطول</label>
                 <input asp-for="Length" class="form-control" />
                 <span asp-validation-for="Length" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Width" class="control-label"></label>
+                <label asp-for="Width" class="control-label">العرض</label>
                 <input asp-for="Width" class="form-control" />
                 <span asp-validation-for="Width" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Hardness" class="control-label"></label>
+                <label asp-for="Hardness" class="control-label">القساوة</label>
                 <select asp-for="Hardness" class="form-control" asp-items="Html.GetEnumSelectList<Hardness>()"></select>
                 <span asp-validation-for="Hardness" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Weight" class="control-label"></label>
+                <label asp-for="Weight" class="control-label">الوزن كغ</label>
                 <input asp-for="Weight" class="form-control" />
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Gramage" class="control-label"></label>
+                <label asp-for="Gramage" class="control-label">غراماج غرام\سم²</label>
                 <input asp-for="Gramage" class="form-control" />
                 <span asp-validation-for="Gramage" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsAvailable" /> @Html.DisplayNameFor(model => model.IsAvailable)
+                    <input class="form-check-input" asp-for="IsAvailable" /> متوفر
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="ShipmentNo" class="control-label"></label>
+                <label asp-for="ShipmentNo" class="control-label">رقم الشحنة</label>
                 <input asp-for="ShipmentNo" class="form-control" />
                 <span asp-validation-for="ShipmentNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
+                <label asp-for="Notes" class="control-label">ملاحظة</label>
                 <input asp-for="Notes" class="form-control" />
                 <span asp-validation-for="Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="إضافة" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

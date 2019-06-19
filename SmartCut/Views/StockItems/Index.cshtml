@@ -4,43 +4,43 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>المستودع</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">إضافة مادة</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ItemType)
+                نوع المادة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                الصنف
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Length)
+                الطول
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Width)
+                العرض
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Hardness)
+                القساوة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weight)
+                الوزن كغ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Gramage)
+                غراماج غ\سم²
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsAvailable)
+                متوفر
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShipmentNo)
+                الشحنة
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Notes)
+                ملاحظة
             </th>
             <th></th>
         </tr>
@@ -79,9 +79,9 @@
                 @Html.DisplayFor(modelItem => item.Notes)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@item.Id"><i class="fa fa-pencil-alt"></i></a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="fa fa-trash"></i></a>
+
             </td>
         </tr>
 }

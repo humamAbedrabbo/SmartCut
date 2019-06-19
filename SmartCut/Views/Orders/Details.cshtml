@@ -1,56 +1,55 @@
 ﻿@model SmartCut.Models.Order
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "طلب شراء";
 }
 
-<h1>Create</h1>
+<h1>طلب شراء</h1>
 
-<h4>OrderFilter</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Filter.CategoryId" class="control-label"></label>
+                <label asp-for="Filter.CategoryId" class="control-label">الصنف</label>
                 <select asp-for="Filter.CategoryId" class="form-control" asp-items="ViewBag.Categories"></select>
                 <span asp-validation-for="Filter.CategoryId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Filter.Length" class="control-label"></label>
+                <label asp-for="Filter.Length" class="control-label">الطول</label>
                 <input asp-for="Filter.Length" class="form-control" />
                 <span asp-validation-for="Filter.Length" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Filter.Width" class="control-label"></label>
+                <label asp-for="Filter.Width" class="control-label">العرض</label>
                 <input asp-for="Filter.Width" class="form-control" />
                 <span asp-validation-for="Filter.Width" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Filter.Gramage" class="control-label"></label>
+                <label asp-for="Filter.Gramage" class="control-label">غراماج</label>
                 <input asp-for="Filter.Gramage" class="form-control" />
                 <span asp-validation-for="Filter.Gramage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Filter.Hardness" class="control-label"></label>
+                <label asp-for="Filter.Hardness" class="control-label">القساوة</label>
                 <select asp-for="Filter.Hardness" class="form-control" asp-items="Html.GetEnumSelectList<Hardness>()">
                     <option value=""></option>
                 </select>
                 <span asp-validation-for="Filter.Hardness" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Filter.ItemType" class="control-label"></label>
+                <label asp-for="Filter.ItemType" class="control-label">نوع المادة</label>
                 <select asp-for="Filter.ItemType" class="form-control" asp-items="Html.GetEnumSelectList<StockItemType>()">
                     <option value=""></option>
                 </select>
                 <span asp-validation-for="Filter.ItemType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="فحص الطلب" class="btn btn-primary" />
             </div>
             <div class="row">
-                <partial name="_Items" for="Items"/>
+                <partial name="_Items" for="Items" />
             </div>
         </form>
     </div>
