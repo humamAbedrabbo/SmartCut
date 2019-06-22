@@ -31,12 +31,15 @@ namespace SmartCut.Services
 
         internal void Cut(bool allowRotation)
         {
+            if (Area < OrderItem.Area)
+                return;
+
             if (allowRotation)
                 CutWithRotation();
             else
                 CutWithOutRotation();
             if (Total != 0)
-                LossPercent = (Total * OrderItem.Area) / Area;
+                LossPercent = (100 * Total * OrderItem.Area) / Area;
         }
 
         private void CutWithOutRotation()
@@ -66,6 +69,12 @@ namespace SmartCut.Services
             //add to dictinary
         }
 
+        private bool IsGoodResult()
+        {
+            CutWithOutRotation();
+            return (Area - (Total * OrderItem.Area)) < OrderItem.Area;
+        }
+
         private int Split()
         {
             int t = 0;
@@ -79,12 +88,6 @@ namespace SmartCut.Services
                 t += sheet.Total;
             }
             return t;
-        }
-
-        private bool IsGoodResult()
-        {
-            CutWithOutRotation();
-            return (Area - (Total * OrderItem.Area)) < OrderItem.Area;
         }
     }
 }
