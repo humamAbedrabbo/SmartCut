@@ -29,12 +29,14 @@ namespace SmartCut.Services
             Width = buffer;
         }
 
-        internal void Cut(bool allowRotation = false)
+        internal void Cut(bool allowRotation)
         {
             if (allowRotation)
                 CutWithRotation();
             else
                 CutWithOutRotation();
+            if (Total != 0)
+                LossPercent = (Total * OrderItem.Area) / Area;
         }
 
         private void CutWithOutRotation()
@@ -44,19 +46,44 @@ namespace SmartCut.Services
 
         private void CutWithRotation()
         {
-            //check dictionary
-            CutWithOutRotation();
-            if (IsWastedSmallerOrderItemArea())
+            if (Width < OrderItem.SmallerRib || Length < OrderItem.SmallerRib)
                 return;
-            Rotate();
-            CutWithOutRotation();
-            
-
+            //check dictionary
+            if (!IsGoodResult())
+            {
+                Rotate();
+                if (!IsGoodResult())
+                {
+                    int total1 = Split();
+                    Rotate();
+                    int total2 = Split();
+                    if (total1 > total2)
+                        Total = total1;
+                    else
+                        Total = total2;
+                }
+            }
             //add to dictinary
         }
 
-        bool IsWastedSmallerOrderItemArea()
+        private int Split()
         {
+            int t = 0;
+            if (Width > OrderItem.Width)
+            {
+                Sheet sheet = new Sheet(Length, Width - OrderItem.Width);
+                sheet.Cut(true);
+                t = sheet.Total;
+                sheet = new Sheet(Length, OrderItem.Width);
+                sheet.Cut(true);
+                t += sheet.Total;
+            }
+            return t;
+        }
+
+        private bool IsGoodResult()
+        {
+            CutWithOutRotation();
             return (Area - (Total * OrderItem.Area)) < OrderItem.Area;
         }
     }
