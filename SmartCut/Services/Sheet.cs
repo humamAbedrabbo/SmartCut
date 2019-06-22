@@ -49,16 +49,15 @@ namespace SmartCut.Services
             if (IsWastedSmallerOrderItemArea())
                 return;
             Rotate();
-                 CutWithOutRotation();
+            CutWithOutRotation();
             
-            int totalfoeWidthCut = totalfoeWidthCut();
 
             //add to dictinary
         }
 
         bool IsWastedSmallerOrderItemArea()
         {
-            return (Area - (Total * OrderItemArea)) < OrderItemArea;
+            return (Area - (Total * OrderItem.Area)) < OrderItem.Area;
         }
     }
 }

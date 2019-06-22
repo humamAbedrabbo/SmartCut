@@ -39,11 +39,11 @@ namespace SmartCut.Services
         {
             Sheet master1, master2;
             master1 = BestCuttingLocation(OrderItem.Length, item.Width);
-            if (filter.Length == filter.Width || (master1 != null && master1.LossPercent == 0))
+            if (OrderItem.Length == OrderItem.Width || (master1 != null && master1.LossPercent == 0))
             {
                 return master1;
             }
-            master2 = BestCuttingLocation(filter.Width, item.Width, filter);
+            master2 = BestCuttingLocation(OrderItem.Width, item.Width);
             if (master2 == null)
                 return master1;
             if (master1 == null || master2.LossPercent == 0 || master2.LossPercent < master1.LossPercent)
