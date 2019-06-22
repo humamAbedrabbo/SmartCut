@@ -10,11 +10,12 @@ namespace SmartCut.Services
     {
         public static Order CheckOrder(Order order, SettingModel settings)
         {
+            Rolle.maximumCuttingLengthInMm = settings.MaximumCuttingLengthInCm * 10;
             order.Items.AsParallel().ForAll(item =>
             {
                 if(item.ItemType == StockItemType.Roll)
                 {
-                    Rolle.Cut(item, order.Filter, settings.MaximumCuttingLengthInCm * 10);
+                    Rolle.Cut(item, order.Filter);
                 }
                 else
                 {
