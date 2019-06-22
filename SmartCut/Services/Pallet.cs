@@ -8,30 +8,32 @@ namespace SmartCut.Services
 {
     public class Pallet
     {
-        internal static void Cut(StockItemViewModel item, OrderFilter filter)
+        public static OrderItem OrderItem;
+
+        internal static void Cut(StockItemViewModel item)
         {
             Sheet master;
-            if (filter.Hardness.HasValue)
+            if (OrderItem.CanRotate)
             {
-                master = CuttingWithOneDirection(item, filter);
+                master = CuttingWithRotation(item);
             }
             else
             {
-                master = CuttingWithRotation(item, filter);
+                master = CuttingWithOutRotation(item);
             }
         }
 
-        private static Sheet CuttingWithRotation(StockItemViewModel item, OrderFilter filter)
+        private static Sheet CuttingWithRotation(StockItemViewModel item)
         {
             Sheet master = new Sheet(item.Length, item.Width);
-            master.Cut(filter, true);
+            master.Cut(true);
             return master;
         }
 
-        private static Sheet CuttingWithOneDirection(StockItemViewModel item, OrderFilter filter)
+        private static Sheet CuttingWithOutRotation(StockItemViewModel item)
         {
-            var master = new Sheet(item.Length, item.Width, filter.Hardness.Value == item.Hardness);
-            master.Cut(filter, false);
+            var master = new Sheet(item.Length, item.Width, OrderItem.Hardness.Value == item.Hardness);
+            master.Cut(false);
             return master;
         }
     }

@@ -8,18 +8,16 @@ namespace SmartCut.Services
 {
     public class Sheet 
     {
-        public int Length { get; set; }
-
-        public int Width { get; set; }
-
-        public double LossPercent { get; set; } = 100;
-
-        public int Total { get; set; } = 0;
+        int Length, Width, Area;
+        public int Total = 0;
+        public double LossPercent = 100;
+        public static OrderItem OrderItem;
 
         public Sheet(int length, int width, bool sameDirection = true)
         {
             Length = length;
             Width = width;
+            Area = width * length;
             if (!sameDirection)
                 Rotate();
         }
@@ -31,32 +29,36 @@ namespace SmartCut.Services
             Width = buffer;
         }
 
-        internal void Cut(OrderFilter filter, bool allowRotation = false)
+        internal void Cut(bool allowRotation = false)
         {
             if (allowRotation)
-                Total = CutWithRotation(filter);
+                CutWithRotation();
             else
-                Total = CutWithOutRotation(filter);
+                CutWithOutRotation();
         }
 
-        private int CutWithOutRotation(OrderFilter filter)
+        private void CutWithOutRotation()
         {
-            return (Width / filter.Width) * (Length / filter.Length);
+            Total =  (Width / OrderItem.Width) * (Length / OrderItem.Length);
         }
 
-        private int CutWithRotation(OrderFilter filter)
+        private void CutWithRotation()
         {
             //check dictionary
-            if (Width == filter.Width || Length == filter.Length)
-                return CutWithOutRotation(filter);
-            if (Width == filter.Length || Length == filter.Width)
-            {
-                Rotate();
-                return CutWithOutRotation(filter);
-            }
-
+            CutWithOutRotation();
+            if (IsWastedSmallerOrderItemArea())
+                return;
+            Rotate();
+                 CutWithOutRotation();
+            
+            int totalfoeWidthCut = totalfoeWidthCut();
 
             //add to dictinary
+        }
+
+        bool IsWastedSmallerOrderItemArea()
+        {
+            return (Area - (Total * OrderItemArea)) < OrderItemArea;
         }
     }
 }

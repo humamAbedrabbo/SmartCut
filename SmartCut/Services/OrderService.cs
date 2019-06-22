@@ -11,15 +11,17 @@ namespace SmartCut.Services
         public static Order CheckOrder(Order order, SettingModel settings)
         {
             Rolle.maximumCuttingLengthInMm = settings.MaximumCuttingLengthInCm * 10;
+            Sheet.OrderItem = Rolle.OrderItem = Pallet.OrderItem = new OrderItem(order.Filter);
+
             order.Items.AsParallel().ForAll(item =>
             {
                 if(item.ItemType == StockItemType.Roll)
                 {
-                    Rolle.Cut(item, order.Filter);
+                    Rolle.Cut(item);
                 }
                 else
                 {
-                    Pallet.Cut(item, order.Filter);
+                    Pallet.Cut(item);
                 }
             });
             //sort pallet

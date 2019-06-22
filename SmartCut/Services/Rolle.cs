@@ -8,36 +8,37 @@ namespace SmartCut.Services
 {
     public static class Rolle
     {
-        static public int maximumCuttingLengthInMm;
+        public static int maximumCuttingLengthInMm;
+        public static OrderItem OrderItem;
 
-        internal static void Cut(StockItemViewModel item, OrderFilter filter)
+        internal static void Cut(StockItemViewModel item)
         {
             Sheet master;
-            if(filter.Hardness.HasValue)
+            if(OrderItem.CanRotate)
             {
-                master = CuttingWithOneDirection(item, filter);
+                master = CuttingWithRotation(item);
             }
             else
             {
-                master = CuttingWithRotation(item, filter);
+                master = CuttingWithOutRotation(item);
             }
         }
 
-        private static Sheet CuttingWithOneDirection(StockItemViewModel item, OrderFilter filter)
+        private static Sheet CuttingWithOutRotation(StockItemViewModel item)
         {
             Sheet master;
-            if (filter.Hardness.Value == item.Hardness)
-                master = new Sheet(filter.Length, item.Width);
+            if (OrderItem.Hardness.Value == item.Hardness)
+                master = new Sheet(OrderItem.Length, item.Width);
             else
-                master = new Sheet(filter.Width, item.Width, false);
-            master.Cut(filter, false);
+                master = new Sheet(OrderItem.Width, item.Width, false);
+            master.Cut(false);
             return master;
         }
 
-        private static Sheet CuttingWithRotation(StockItemViewModel item, OrderFilter filter)
+        private static Sheet CuttingWithRotation(StockItemViewModel item)
         {
             Sheet master1, master2;
-            master1 = BestCuttingLocation(filter.Length, item.Width, filter);
+            master1 = BestCuttingLocation(OrderItem.Length, item.Width);
             if (filter.Length == filter.Width || (master1 != null && master1.LossPercent == 0))
             {
                 return master1;
@@ -50,13 +51,13 @@ namespace SmartCut.Services
             return master1;
         }
 
-        private static Sheet BestCuttingLocation(int cuttingUnit, int itemWidth, OrderFilter filter)
+        private static Sheet BestCuttingLocation(int cuttingUnit, int itemWidth)
         {
             Sheet master, bestMaster = null;
             for (int length = cuttingUnit; length <= maximumCuttingLengthInMm; length += cuttingUnit)
             {
                 master = new Sheet(length, itemWidth);
-                master.Cut(filter, true);
+                master.Cut(true);
                 if (master.LossPercent == 0)
                 {
                     return master;
