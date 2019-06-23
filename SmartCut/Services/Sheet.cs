@@ -1,5 +1,6 @@
 ﻿using SmartCut.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace SmartCut.Services
         public int Total = 0;
         public double LossPercent = 100;
         public static OrderItem OrderItem;
+        public static ConcurrentDictionary<(int,int), int> CalculatedSheetdictinary;
 
         public Sheet(int length, int width, bool sameDirection = true)
         {
@@ -31,9 +33,8 @@ namespace SmartCut.Services
 
         internal void Cut(bool allowRotation)
         {
-            if (Area < OrderItem.Area)
+            if (Area < OrderItem.Area || Width < OrderItem.SmallerRib || Length < OrderItem.SmallerRib)
                 return;
-
             if (allowRotation)
                 CutWithRotation();
             else
@@ -49,9 +50,8 @@ namespace SmartCut.Services
 
         private void CutWithRotation()
         {
-            if (Width < OrderItem.SmallerRib || Length < OrderItem.SmallerRib)
+            if (FindinDictionary())
                 return;
-            //check dictionary
             if (!IsGoodResult())
             {
                 Rotate();
@@ -66,7 +66,16 @@ namespace SmartCut.Services
                         Total = total2;
                 }
             }
-            //add to dictinary
+            AddtoDictinary();
+        }
+
+        private bool FindinDictionary()
+        {
+            if (CalculatedSheetdictinary.TryGetValue((Length, Width), out Total))
+                return true;
+            if (CalculatedSheetdictinary.TryGetValue((Width, Length), out Total))
+                return true;
+            return false;
         }
 
         private bool IsGoodResult()
@@ -88,6 +97,11 @@ namespace SmartCut.Services
                 t += sheet.Total;
             }
             return t;
+        }
+
+        private void AddtoDictinary()
+        {
+            CalculatedSheetdictinary.TryAdd((Length,Width),Total);
         }
     }
 }

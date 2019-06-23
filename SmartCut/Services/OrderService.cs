@@ -8,23 +8,29 @@ namespace SmartCut.Services
 {
     public class OrderService 
     {
+        static object locker = new object();
+
         public static Order CheckOrder(Order order, SettingModel settings)
         {
-            Rolle.maximumCuttingLengthInMm = settings.MaximumCuttingLengthInCm * 10;
-            Sheet.OrderItem = Rolle.OrderItem = Pallet.OrderItem = new OrderItem(order.Filter);
-
-            order.Items.AsParallel().ForAll(item =>
+            lock (locker)
             {
-                if(item.ItemType == StockItemType.Roll)
+                Rolle.maximumCuttingLengthInMm = settings.MaximumCuttingLengthInCm * 10;
+                Sheet.OrderItem = Rolle.OrderItem = Pallet.OrderItem = new OrderItem(order.Filter);
+                Sheet.CalculatedSheetdictinary = new System.Collections.Concurrent.ConcurrentDictionary<(int, int), int>();
+                order.Items.AsParallel().ForAll(item =>
                 {
-                    Rolle.Cut(item);
-                }
-                else
-                {
-                    Pallet.Cut(item);
-                }
-            });
-            //sort pallet
+                    if (item.ItemType == StockItemType.Roll)
+                    {
+                        Rolle.Cut(item);
+                    }
+                    else
+                    {
+                        Pallet.Cut(item);
+                    }
+                });
+                //sort pallet
+                //order.Items.Sort(x=> x.)
+            }
             return order;
         }
     }
