@@ -9,9 +9,9 @@ namespace SmartCut.Services
 {
     public class Sheet 
     {
-        int Length, Width, Area;
+        private int Length, Width;
+        private readonly int Area;
         public int Total = 0;
-        public double LossPercent = 100;
         public static OrderItem OrderItem;
         public static ConcurrentDictionary<(int,int), int> CalculatedSheetdictinary;
 
@@ -39,8 +39,6 @@ namespace SmartCut.Services
                 CutWithRotation();
             else
                 CutWithOutRotation();
-            if (Total != 0)
-                LossPercent = (100 * Total * OrderItem.Area) / Area;
         }
 
         private void CutWithOutRotation()
@@ -52,18 +50,22 @@ namespace SmartCut.Services
         {
             if (FindinDictionary())
                 return;
+            CutWithOutRotation();
             if (!IsGoodResult())
             {
                 Rotate();
+                CutWithOutRotation();
                 if (!IsGoodResult())
                 {
-                    int total1 = Split();
-                    Rotate();
-                    int total2 = Split();
-                    if (total1 > total2)
-                        Total = total1;
-                    else
-                        Total = total2;
+                    Split();
+                    if (!IsGoodResult())
+                    {
+                        int total1 = Total;
+                        Rotate();
+                        Split();
+                        if (Total < total1)
+                            Total = total1;
+                    }
                 }
             }
             AddtoDictinary();
@@ -80,23 +82,28 @@ namespace SmartCut.Services
 
         private bool IsGoodResult()
         {
-            CutWithOutRotation();
             return (Area - (Total * OrderItem.Area)) < OrderItem.Area;
         }
 
-        private int Split()
+        private void Split()
         {
-            int t = 0;
             if (Width > OrderItem.Width)
             {
                 Sheet sheet = new Sheet(Length, Width - OrderItem.Width);
                 sheet.Cut(true);
-                t = sheet.Total;
+                Total = sheet.Total;
                 sheet = new Sheet(Length, OrderItem.Width);
                 sheet.Cut(true);
-                t += sheet.Total;
+                Total += sheet.Total;
             }
-            return t;
+            else
+                Total = 0;
+            //if (Width == OrderItem.Width) should be handled before
+        }
+
+        public double UsefullPercent()
+        {
+            return Convert.ToDouble(Total * OrderItem.Area) / Convert.ToDouble(Area);
         }
 
         private void AddtoDictinary()

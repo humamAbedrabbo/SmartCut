@@ -1,4 +1,6 @@
-﻿namespace SmartCut.Models
+﻿using SmartCut.Services;
+
+namespace SmartCut.Models
 {
     public class StockItemViewModel
     {
@@ -30,6 +32,8 @@
 
         public int Total { get; set; }
 
+        public double Indexing { get; set; }
+
         public static explicit operator StockItem(StockItemViewModel si)
         {
             return new StockItem
@@ -47,6 +51,21 @@
                 ShipmentNo = si.ShipmentNo,
                 Notes = si.Notes
             };
+        }
+
+        public void Evaluate(Sheet sheet)
+        {
+            if (sheet == null)
+            {
+                LossPercent = 100;
+                Indexing = Total = 0;
+            }
+            else
+            {
+                LossPercent = sheet.UsefullPercent();
+                Total = sheet.Total;
+                Indexing = 3;
+            }
         }
     }
 }

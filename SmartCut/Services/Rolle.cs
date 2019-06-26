@@ -6,25 +6,33 @@ using SmartCut.Models;
 
 namespace SmartCut.Services
 {
-    public static class Rolle
+    public class Rolle
     {
         public static int maximumCuttingLengthInMm;
         public static OrderItem OrderItem;
+        private StockItemViewModel item;
+        double usefullPercent;
 
-        internal static void Cut(StockItemViewModel item)
+        public Rolle(StockItemViewModel item)
+        {
+            this.item = item;
+        }
+
+        internal void Cut()
         {
             Sheet master;
             if(OrderItem.CanRotate)
             {
-                master = CuttingWithRotation(item);
+                master = CuttingWithRotation();
             }
             else
             {
-                master = CuttingWithOutRotation(item);
+                master = CuttingWithOutRotation();
             }
+            item.Evaluate(master);
         }
 
-        private static Sheet CuttingWithOutRotation(StockItemViewModel item)
+        private Sheet CuttingWithOutRotation()
         {
             Sheet master;
             if (OrderItem.Hardness.Value == item.Hardness)
@@ -35,36 +43,38 @@ namespace SmartCut.Services
             return master;
         }
 
-        private static Sheet CuttingWithRotation(StockItemViewModel item)
+        private Sheet CuttingWithRotation()
         {
             Sheet master1, master2;
             master1 = BestCuttingLocation(OrderItem.Length, item.Width);
-            if (OrderItem.Length == OrderItem.Width || (master1 != null && master1.LossPercent == 0))
+            if (OrderItem.Length == OrderItem.Width || (master1 != null && master1.UsefullPercent() == 0))
             {
                 return master1;
             }
             master2 = BestCuttingLocation(OrderItem.Width, item.Width);
             if (master2 == null)
                 return master1;
-            if (master1 == null || master2.LossPercent == 0 || master2.LossPercent < master1.LossPercent)
+            if (master1 == null || master2.UsefullPercent() == 0 || master2.UsefullPercent() < master1.UsefullPercent())
                 return master2;
             return master1;
         }
 
-        private static Sheet BestCuttingLocation(int cuttingUnit, int itemWidth)
+        private Sheet BestCuttingLocation(int cuttingUnit, int itemWidth)
         {
             Sheet master, bestMaster = null;
+            usefullPercent = 0;
             for (int length = cuttingUnit; length <= maximumCuttingLengthInMm; length += cuttingUnit)
             {
                 master = new Sheet(length, itemWidth);
                 master.Cut(true);
-                if (master.LossPercent == 0)
+                usefullPercent = master.UsefullPercent();
+                if (usefullPercent == 1)
                 {
                     return master;
                 }
-                else
+                
                 {
-                    if (bestMaster == null || master.LossPercent < bestMaster.LossPercent)
+                    if (bestMaster == null || master.UsefullPercent() < bestMaster.UsefullPercent())
                         bestMaster = master;
                 }
             }

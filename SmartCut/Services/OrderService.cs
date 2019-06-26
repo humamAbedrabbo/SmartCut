@@ -21,7 +21,8 @@ namespace SmartCut.Services
                 {
                     if (item.ItemType == StockItemType.Roll)
                     {
-                        Rolle.Cut(item);
+                        Rolle rolle = new Rolle(item);
+                        rolle.Cut();
                     }
                     else
                     {
@@ -29,7 +30,7 @@ namespace SmartCut.Services
                     }
                 });
                 //sort pallet
-                //order.Items.Sort(x=> x.)
+                order.Items.Sort();
             }
             return order;
         }
