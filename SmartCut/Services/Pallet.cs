@@ -28,7 +28,7 @@ namespace SmartCut.Services
                 Master = new Sheet(Item.Length, Item.Width, OrderItem.Hardness.Value == Item.Hardness);
             }
             Master.Cut();
-            Item.Evaluate(Master);
+            Item.Evaluate(Master, Item.Gramage);
         }
     }
 }

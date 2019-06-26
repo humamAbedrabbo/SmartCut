@@ -1,4 +1,5 @@
 ﻿using SmartCut.Services;
+using System;
 
 namespace SmartCut.Models
 {
@@ -32,7 +33,7 @@ namespace SmartCut.Models
 
         public int Total { get; set; }
 
-        public double Indexing { get; set; }
+        public int Indexing { get; set; }
 
         public static explicit operator StockItem(StockItemViewModel si)
         {
@@ -53,12 +54,12 @@ namespace SmartCut.Models
             };
         }
 
-        public void Evaluate(Sheet sheet)
+        public void Evaluate(Sheet sheet, int itemGramage)
         {
-            Evaluate(sheet, sheet.UsefullPercent());
+            Evaluate(sheet, itemGramage, sheet.UsefullPercent());
         }
 
-        public void Evaluate(Sheet sheet, double usefullPercent)
+        public void Evaluate(Sheet sheet, int itemGramage, double usefullPercent)
         {
             if (sheet == null)
             {
@@ -67,9 +68,18 @@ namespace SmartCut.Models
             }
             else
             {
-                LossPercent = sheet.UsefullPercent();
-                Total = sheet.Total;
-                Indexing = 3;
+                LossPercent = 100 * (1 - usefullPercent);
+                var sheetWeight = sheet.Area * Gramage;
+                var sheetNumbers = Convert.ToInt32(Weight/sheetWeight);
+                Total = sheetNumbers * sheet.Total;
+                if (Width != sheet.Width)
+                {
+                    sheet.Rotate();
+                    if (Width != sheet.Width)
+                        throw new Exception("Width doesn't match");
+                }
+                Length = sheet.Length;
+                Indexing = (10000 * Math.Abs(Gramage - itemGramage)) / Gramage +  Convert.ToInt32(100* LossPercent);
             }
         }
     }

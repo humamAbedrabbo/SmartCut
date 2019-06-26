@@ -9,8 +9,8 @@ namespace SmartCut.Services
 {
     public class Sheet 
     {
-        private int Length, Width;
-        private readonly int Area;
+        public int Length, Width;
+        public readonly int Area;
         public int Total = 0;
         public static OrderItem OrderItem;
         public static ConcurrentDictionary<(int,int), int> CalculatedSheetdictinary;
@@ -24,7 +24,7 @@ namespace SmartCut.Services
                 Rotate();
         }
 
-        void Rotate()
+        public void Rotate()
         {
             int buffer = Length;
             Length = Width;

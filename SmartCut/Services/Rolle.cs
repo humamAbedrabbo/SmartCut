@@ -40,7 +40,7 @@ namespace SmartCut.Services
             else
                 BestMaster = new Sheet(OrderItem.Width, item.Width, false);
             BestMaster.Cut();
-            item.Evaluate(BestMaster);
+            item.Evaluate(BestMaster, item.Gramage);
         }
 
         private void CuttingWithRotation()
@@ -48,7 +48,7 @@ namespace SmartCut.Services
             BestCuttingLocation(OrderItem.Length);
             if (UsefullPercent != 1 && OrderItem.Length != OrderItem.Width)
                 BestCuttingLocation(OrderItem.Width);
-            item.Evaluate(BestMaster, UsefullPercent);
+            item.Evaluate(BestMaster, item.Gramage, UsefullPercent);
         }
 
         private void BestCuttingLocation(int cuttingUnit)
