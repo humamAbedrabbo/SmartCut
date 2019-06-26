@@ -55,6 +55,11 @@ namespace SmartCut.Models
 
         public void Evaluate(Sheet sheet)
         {
+            Evaluate(sheet, sheet.UsefullPercent());
+        }
+
+        public void Evaluate(Sheet sheet, double usefullPercent)
+        {
             if (sheet == null)
             {
                 LossPercent = 100;

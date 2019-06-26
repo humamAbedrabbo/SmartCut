@@ -9,32 +9,26 @@ namespace SmartCut.Services
     public class Pallet
     {
         public static OrderItem OrderItem;
+        public Sheet Master;
+        private StockItemViewModel Item;
 
-        internal static void Cut(StockItemViewModel item)
+        public Pallet(StockItemViewModel item)
         {
-            Sheet master;
+            this.Item = item;
+        }
+
+        public void Cut()
+        {
             if (OrderItem.CanRotate)
             {
-                master = CuttingWithRotation(item);
+                Master = new Sheet(Item.Length, Item.Width);
             }
             else
             {
-                master = CuttingWithOutRotation(item);
+                Master = new Sheet(Item.Length, Item.Width, OrderItem.Hardness.Value == Item.Hardness);
             }
-        }
-
-        private static Sheet CuttingWithRotation(StockItemViewModel item)
-        {
-            Sheet master = new Sheet(item.Length, item.Width);
-            master.Cut(true);
-            return master;
-        }
-
-        private static Sheet CuttingWithOutRotation(StockItemViewModel item)
-        {
-            var master = new Sheet(item.Length, item.Width, OrderItem.Hardness.Value == item.Hardness);
-            master.Cut(false);
-            return master;
+            Master.Cut();
+            Item.Evaluate(Master);
         }
     }
 }

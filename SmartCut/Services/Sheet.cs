@@ -31,11 +31,11 @@ namespace SmartCut.Services
             Width = buffer;
         }
 
-        internal void Cut(bool allowRotation)
+        public void Cut()
         {
             if (Area < OrderItem.Area || Width < OrderItem.SmallerRib || Length < OrderItem.SmallerRib)
                 return;
-            if (allowRotation)
+            if (OrderItem.CanRotate)
                 CutWithRotation();
             else
                 CutWithOutRotation();
@@ -90,10 +90,10 @@ namespace SmartCut.Services
             if (Width > OrderItem.Width)
             {
                 Sheet sheet = new Sheet(Length, Width - OrderItem.Width);
-                sheet.Cut(true);
+                sheet.Cut();
                 Total = sheet.Total;
                 sheet = new Sheet(Length, OrderItem.Width);
-                sheet.Cut(true);
+                sheet.Cut();
                 Total += sheet.Total;
             }
             else

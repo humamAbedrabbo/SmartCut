@@ -26,7 +26,8 @@ namespace SmartCut.Services
                     }
                     else
                     {
-                        Pallet.Cut(item);
+                        Pallet pallet = new Pallet(item);
+                        pallet.Cut();
                     }
                 });
                 //sort pallet
