@@ -3,7 +3,7 @@ using System;
 
 namespace SmartCut.Models
 {
-    public class StockItemViewModel
+    public class StockItemViewModel: IEquatable<StockItemViewModel> , IComparable<StockItemViewModel>
     {
         public int Id { get; set; }
 
@@ -64,7 +64,8 @@ namespace SmartCut.Models
             if (sheet == null)
             {
                 LossPercent = 100;
-                Indexing = Total = 0;
+                Total = 0;
+                Indexing = int.MaxValue;
             }
             else
             {
@@ -81,6 +82,16 @@ namespace SmartCut.Models
                 Length = sheet.Length;
                 Indexing = (10000 * Math.Abs(Gramage - itemGramage)) / Gramage +  Convert.ToInt32(100* LossPercent);
             }
+        }
+
+        public bool Equals(StockItemViewModel other)
+        {
+            return other.Indexing == Indexing;
+        }
+
+        public int CompareTo(StockItemViewModel other)
+        {
+            return other.Indexing.CompareTo(Indexing);
         }
     }
 }

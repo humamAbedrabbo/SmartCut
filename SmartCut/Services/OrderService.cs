@@ -30,7 +30,6 @@ namespace SmartCut.Services
                         pallet.Cut();
                     }
                 });
-                //sort pallet
                 order.Items.Sort();
             }
             return order;
