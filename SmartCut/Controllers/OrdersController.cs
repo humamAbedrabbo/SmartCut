@@ -50,6 +50,7 @@ namespace SmartCut.Controllers
                         && x.Gramage <= filter.Gramage * (1 + gramagePercent)
                         && x.Gramage >= filter.Gramage * (1 - gramagePercent)
                         && (!filter.Available.HasValue || x.IsAvailable == bool.Parse(filter.Available.Value.ToString()))
+                        && (!filter.ItemType.HasValue || x.ItemType == filter.ItemType.Value)
                     )
                     .Select(x => (StockItemViewModel)x)
                     .ToList();
