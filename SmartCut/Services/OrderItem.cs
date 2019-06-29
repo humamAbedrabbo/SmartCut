@@ -23,6 +23,7 @@ namespace SmartCut.Services
             Gramage = orderFilter.Gramage;
             Area = Length * Width;
             SmallerRib = (Length < Width) ? Length : Width;
+            Hardness = orderFilter.Hardness;
             CanRotate = !Hardness.HasValue;
         }
     }
