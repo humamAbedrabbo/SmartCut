@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartCut", "SmartCut\SmartC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{7F9FED7D-FD17-4519-B598-F2219E38EA9A}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Desktop\data.xlsx = ..\..\..\Desktop\data.xlsx
+		data.xlsx = data.xlsx
 	EndProjectSection
 EndProject
 Global
