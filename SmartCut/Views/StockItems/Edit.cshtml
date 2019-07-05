@@ -72,4 +72,17 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+
+            $(function () {
+                $("#ItemType").change(function (e) {
+                    handleItemTypeSelection();
+                });
+
+                handleItemTypeSelection();
+
+            });
+    </script>
 }
