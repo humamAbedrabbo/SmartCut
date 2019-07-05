@@ -17,3 +17,11 @@ function handleItemTypeSelection() {
         $length.removeAttr("readonly");
     }
 }
+
+// Validate decimal field to be one digit after decimal point
+function validateDecimal(field) {
+    setTimeout(function () {
+        var regex = /\d*\.?\d?/g;
+        field.value = regex.exec(field.value);
+    }, 0);
+}
