@@ -52,7 +52,9 @@ namespace SmartCut.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            return View();
+            var model = new StockItem();
+            model.IsAvailable = true;
+            return View(model);
         }
 
         // POST: StockItems/Create
