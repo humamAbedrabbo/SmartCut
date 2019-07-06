@@ -33,6 +33,11 @@ namespace SmartCut.Data
             builder.Entity<SettingModel>().HasData(new SettingModel { Id = 1, MaximumCuttingLengthInCm = 1, GramageRangePercent = 0 });
 
             builder.Entity<Category>().Property(p => p.Name).HasMaxLength(50).IsRequired();
+
+            builder.Entity<StockItem>(e => {
+                e.Ignore(p => p.LengthCM);
+                e.Ignore(p => p.WidthCM);
+            });
         }
     }
 }

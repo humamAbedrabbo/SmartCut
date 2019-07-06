@@ -9,6 +9,8 @@
         public int Length { get; set; }
 
         public int Width { get; set; }
+        public double LengthCM { get => Length / 10.0; set => Length = (int)(value * 10); }
+        public double WidthCM { get => Width / 10.0; set => Width = (int)(value * 10); }
 
         public int Gramage { get; set; }
 

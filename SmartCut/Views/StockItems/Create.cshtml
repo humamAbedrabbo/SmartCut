@@ -21,14 +21,14 @@
                 <select asp-for="CategoryId" class ="form-control" asp-items="ViewBag.CategoryId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Length" class="control-label">الطول</label>
-                <input asp-for="Length" class="form-control" />
-                <span asp-validation-for="Length" class="text-danger"></span>
+                <label asp-for="LengthCM" class="control-label">الطول</label>
+                <input asp-for="LengthCM" class="form-control" type="number" min="0" step="0.1" value="0.0" onkeyup="validateDecimal(this)" />
+                <span asp-validation-for="LengthCM" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Width" class="control-label">العرض</label>
-                <input asp-for="Width" class="form-control" />
-                <span asp-validation-for="Width" class="text-danger"></span>
+                <label asp-for="WidthCM" class="control-label">العرض</label>
+                <input asp-for="WidthCM" class="form-control" type="number" min="0" step="0.1" value="0.0" onkeyup="validateDecimal(this)" />
+                <span asp-validation-for="WidthCM" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Hardness" class="control-label">القساوة</label>

@@ -62,7 +62,7 @@ namespace SmartCut.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ItemType,CategoryId,Length,Width,Hardness,Weight,Gramage,IsAvailable,ShipmentNo,Notes")] StockItem stockItem)
+        public async Task<IActionResult> Create([Bind("Id,ItemType,CategoryId,LengthCM,WidthCM,Hardness,Weight,Gramage,IsAvailable,ShipmentNo,Notes")] StockItem stockItem)
         {
             if (ModelState.IsValid)
             {
@@ -151,7 +151,7 @@ namespace SmartCut.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,CategoryId,Length,Width,Hardness,Weight,Gramage,IsAvailable,ShipmentNo,Notes")] StockItem stockItem)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemType,CategoryId,LengthCM,WidthCM,Hardness,Weight,Gramage,IsAvailable,ShipmentNo,Notes")] StockItem stockItem)
         {
             if (id != stockItem.Id)
             {
