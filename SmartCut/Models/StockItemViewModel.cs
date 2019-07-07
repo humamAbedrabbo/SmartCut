@@ -73,7 +73,7 @@ namespace SmartCut.Models
             else
             {
                 LossPercent = 100 * (1 - usefullPercent);
-                var sheetWeight = sheet.Area * Gramage / 1000;
+                var sheetWeight = sheet.Area * Gramage / Convert.ToDouble(1000 * 10000);
                 var sheetNumbers = Convert.ToInt32(Weight/sheetWeight);
                 Total = sheetNumbers * sheet.Total;
                 if (Width != sheet.Width)
