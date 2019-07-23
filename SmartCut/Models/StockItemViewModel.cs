@@ -36,6 +36,7 @@ namespace SmartCut.Models
 
         public int Total { get; set; }
 
+        public int PiecesCount { get; set; }
         public int Indexing { get; set; }
 
         public static explicit operator StockItem(StockItemViewModel si)
@@ -75,7 +76,8 @@ namespace SmartCut.Models
                 LossPercent = 100 * (1 - usefullPercent);
                 var sheetWeight = sheet.Area * Gramage / Convert.ToDouble(1000 * 10000);
                 var sheetNumbers = Convert.ToInt32(Weight/sheetWeight);
-                Total = sheetNumbers * sheet.Total;
+                PiecesCount = sheet.Total;
+                Total = sheetNumbers * PiecesCount;
                 if (Width != sheet.Width)
                 {
                     sheet.Rotate();
