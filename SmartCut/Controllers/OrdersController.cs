@@ -61,6 +61,7 @@ namespace SmartCut.Controllers
                 ;
                 ViewBag.Categories = new SelectList(context.Categories, "Id", "Name");
                 return View(nameof(Details), anOrder);
+                
             }
             catch
             {
